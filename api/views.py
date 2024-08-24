@@ -28,6 +28,20 @@ class TripDelete(generics.DestroyAPIView):
         user = self.request.user
         return Trip.objects.filter(user=user)
     
+class TripRetrieveUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = TripSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Trip.objects.filter(user=user)
+    
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)
+        else:
+            print(serializer.errors)
+    
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('trips/', views.TripListCreate.as_view(), name='trip-list'),
     path('trip/delete/<int:pk>/', views.TripDelete.as_view(), name='delete-trip'),
+    path('trip/update/<int:pk>/', views.TripRetrieveUpdate.as_view(), name='update-trip'),
 ]
