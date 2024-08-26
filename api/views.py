@@ -70,8 +70,8 @@ class ItineraryDelete(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Itinerary.objects.filter(user=user)
+        id = self.kwargs.get('pk')
+        return Itinerary.objects.filter(id=id)
     
 class ItineraryRetrieveUpdate(generics.RetrieveUpdateAPIView):
     serializer_class = ItinerarySerializer
