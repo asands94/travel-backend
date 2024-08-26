@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, TripSerializer
+from .serializers import UserSerializer, TripSerializer, ItinerarySerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Trip
+from .models import Trip, Itinerary
 
-# Create your views here.
+#--------------------------------#
+# TRIPS
+#--------------------------------#
+
 class TripListCreate(generics.ListCreateAPIView):
     serializer_class = TripSerializer
     permission_classes = [IsAuthenticated]
@@ -41,6 +44,47 @@ class TripRetrieveUpdate(generics.RetrieveUpdateAPIView):
             serializer.save(user=self.request.user)
         else:
             print(serializer.errors)
+
+#--------------------------------#
+# ITINERARIES
+#--------------------------------#
+
+class ItineraryListCreate(generics.ListCreateAPIView):
+    serializer_class = ItinerarySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Itinerary.objects.filter(user=user)
+    
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)
+        else:
+            print(serializer.errors)
+
+class ItineraryDelete(generics.DestroyAPIView):
+    serializer_class = ItinerarySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Itinerary.objects.filter(user=user)
+    
+class ItineraryRetrieveUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = ItinerarySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Itinerary.objects.filter(user=user)
+    
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)
+        else:
+            print(serializer.errors)
+
     
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()

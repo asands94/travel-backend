@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Trip
+from .models import Trip, Itinerary
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,8 @@ class TripSerializer(serializers.ModelSerializer):
         model = Trip
         fields = "__all__"
         extra_kwargs = {'user': {'read_only': True}}
+
+class ItinerarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Itinerary
+        fields = "__all__"
