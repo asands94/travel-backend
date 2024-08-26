@@ -78,12 +78,13 @@ class ItineraryRetrieveUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Itinerary.objects.filter(user=user)
+        id = self.kwargs.get('pk')
+        return Itinerary.objects.filter(id=id)
     
     def perform_create(self, serializer):
+        id = self.kwargs.get('pk')
         if serializer.is_valid():
-            serializer.save(user=self.request.user)
+            serializer.save(id=id)
         else:
             print(serializer.errors)
 
