@@ -54,12 +54,14 @@ class ItineraryListCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Itinerary.objects.filter(user=user)
+        trip_id = self.kwargs.get('pk')
+        return Itinerary.objects.filter(trip_id=trip_id)
     
     def perform_create(self, serializer):
+        trip_id = self.kwargs.get('pk')
+        trip = Trip.objects.get(id=trip_id)
         if serializer.is_valid():
-            serializer.save(user=self.request.user)
+            serializer.save(trip=trip)
         else:
             print(serializer.errors)
 

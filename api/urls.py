@@ -8,7 +8,7 @@ urlpatterns = [
     path('trip/update/<int:pk>/', views.TripRetrieveUpdate.as_view(), name='update-trip'),
 
     # itineraries
-    path('itineraries/', views.ItineraryListCreate.as_view(), name='itinerary-list'),
+    path('trip/<int:pk>/add-itinerary/', views.ItineraryListCreate.as_view(), name='itinerary-list'),
     path('itinerary/delete/<int:pk>/', views.ItineraryDelete.as_view(), name='delete-itinerary'),
     path('itinerary/update/<int:pk>/', views.ItineraryRetrieveUpdate.as_view(), name='update-itinerary'),
 ]
